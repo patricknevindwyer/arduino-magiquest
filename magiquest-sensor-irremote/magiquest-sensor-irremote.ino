@@ -1,6 +1,7 @@
 #include <IRremote.h>
 #include <IRremoteInt.h>
 
+// MagiQuest protocol for IR
 #define MAGIQUEST_PERIOD     1150
 #define MAGIQUEST_MARK_ZERO  280
 #define MAGIQUEST_SPACE_ZERO 850
@@ -8,15 +9,14 @@
 #define MAGIQUEST_SPACE_ONE  600
 #define MAGIQUEST_BITS 56
 
-#define ERR 0
-#define DECODED 1
-
+// we use an alternate `decode_type` for our IRremote decoding
 #define MAGIQUEST 11
 
+// The magiquest payload is a bit different from the
+// standard IRremote payload
 union magiquest {
   uint64_t llword;
   uint8_t    byte[8];
-//  uint16_t   word[4];
   uint32_t  lword[2];
   struct {
     uint16_t magnitude;
@@ -25,13 +25,23 @@ union magiquest {
     uint8_t  scrap;
   } cmd ;
 } ;
+
+// hoist IRremote DEFs into our namespace for quick compatibility
+#define ERR 0
+#define DECODED 1
+
+// Use analog 0 as our receiver
 int recv_pin = A0;
 IRrecv irrecv(recv_pin);
 
+// Results as read from the IR sensor. We need to run this through
+// the decodeMagiQuest function to get useful data.
 decode_results results;
+magiquest data;
 
 void setup() {
-  // put your setup code here, to run once:
+
+  // Let's use comms for debug
   Serial.begin(9600);
   
   while (!Serial) {
@@ -40,25 +50,39 @@ void setup() {
 
   Serial.println("Comms enabled - beginning sensing");
 
+  // turn on IR receiver
   irrecv.enableIRIn();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  
+  // Wait and decode
   if (irrecv.decode(&results)) {
  
-    magiquest data;
+    // translate the bit stream into something we can use
+    // to understand a MagiQuest wand
     decodeMagiQuest(&results, &data);
     Serial.print("wand_id: ");
     Serial.println(results.value);
     Serial.print("magnitude: ");
     Serial.println(data.cmd.magnitude);
-    irrecv.resume(); // Receive the next value
+
+    // keep receiving data 
+    irrecv.resume(); 
   }
+
+  // wait a bit, and then back to receiving and decoding
   delay(100);
 }
 
-
+/*
+ * This decodeMagiQuest method cribbed from mpflaga (https://github.com/mpflaga/Arduino-IRremote) 
+ * mode of the Arduino IRremote library. Excised and updated to work with current IRremote
+ * library.
+ * 
+ * https://github.com/mpflaga/Arduino-IRremote/blob/master/IRremote.cpp
+ * 
+ */
 int32_t  decodeMagiQuest(decode_results *results, magiquest *mdata) {
   magiquest data;
   data.llword = 0;
@@ -99,6 +123,9 @@ int32_t  decodeMagiQuest(decode_results *results, magiquest *mdata) {
   //results->magiquestMagnitude = data.cmd.magnitude;
   results->value = data.cmd.wand_id;
   results->decode_type = MAGIQUEST;
+
+  // fill in our magiquest struct
   mdata->cmd.magnitude = data.cmd.magnitude;
+  mdata->cmd.wand_id = data.cmd.wand_id;
   return DECODED;
 }
