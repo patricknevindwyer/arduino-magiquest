@@ -14,8 +14,20 @@ magnitude: 33278
 
 # Parts List
 
+Hardware
+
  * Arduino Uno
  * IR Receiver (I used an [OSEPP IR Receiver Module](https://www.osepp.com/electronic-modules/sensor-modules/66-ir-receiver-module), [AdaFruit IR Receiver Sensor](https://www.adafruit.com/products/157) should also work)
+
+Software - Arduino IR Support
+
+ 1. Arduino -> Sketch -> IRRemote
+ 
+Or if IR support isn't alrady installed:
+
+ 1. or Arduino -> Sketch -> Include Library -> Manage Libraries...
+ 2. search IRRemote
+ 3. Install
  
 # Wiring it up
 
