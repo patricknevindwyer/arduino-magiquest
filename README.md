@@ -12,26 +12,62 @@ wand_id: 809765633
 magnitude: 33278
 ```
 
-# Parts List
+# MagiQuest Wand "hello world"
 
-Hardware
+## Parts List
+
+*Hardware*:
 
  * Arduino Uno
  * IR Receiver (I used an [OSEPP IR Receiver Module](https://www.osepp.com/electronic-modules/sensor-modules/66-ir-receiver-module), [AdaFruit IR Receiver Sensor](https://www.adafruit.com/products/157) should also work)
+ * MagiQuest Wand
 
-Software - Arduino IR Support
+*Software - Arduino IR Support*:
 
  1. Arduino -> Sketch -> IRRemote
  
-Or if IR support isn't alrady installed:
+*Or if IR support isn't alrady installed*:
 
  1. or Arduino -> Sketch -> Include Library -> Manage Libraries...
  2. search IRRemote
  3. Install
  
-# Wiring it up
+## Wiring it up
 
 ![Wiring Diagram](images/basic_ir_receiver_bb.png)
+
+
+# Basic Project - Servo and MagiQuest
+
+The `magi-spin` project is a basic example of using a MagiQuest wand to control a servo. In repsonse to a wand wave, a
+servo will quickly swing back and forth.
+
+## Parts List
+
+*Hardware*:
+
+ * Arduino Uno
+ * IR Receiver (I used an [OSEPP IR Receiver Module](https://www.osepp.com/electronic-modules/sensor-modules/66-ir-receiver-module), [AdaFruit IR Receiver Sensor](https://www.adafruit.com/products/157) should also work)
+ * Servo (I used an [Adafruit Micro Servo](https://www.adafruit.com/products/169))
+ * MagiQuest wand
+
+*Software - Arduino IR Support*:
+
+ 1. Arduino -> Sketch -> IRRemote
+ 
+*Or if IR support isn't alrady installed*:
+
+ 1. or Arduino -> Sketch -> Include Library -> Manage Libraries...
+ 2. search IRRemote
+ 3. Install
+ 
+## Wiring Diagram
+
+![magi-spin wiring diagram](images/magi_spin_bb.png)
+
+## Code
+
+See [magi-spin source](magi-spin/magi-spin.ino)
 
 # Decoding MagiQuest
 
@@ -52,3 +88,4 @@ Serial.println(data.cmd.wand_id);
 Serial.print("magnitude: ");
 Serial.println(data.cmd.magnitude);
 ```
+
