@@ -19,6 +19,8 @@ magnitude: 33278
  
 # Wiring it up
 
+![Wiring Diagram](images/basic_ir_receiver_bb.png)
+
 # Decoding MagiQuest
 
 A breakdown of the [signal characteristics of a MagiQuest Wand](http://openschemes.com/2013/03/13/mq-widget-part-iii/) is available over at OpenSchemes. Instead of hand decoding the entire IR signal, we piggyback on the IRremote Arduino library, with a few modifications courtesy of [mpflaga's MagiQuest fork of IRremote](https://github.com/mpflaga/Arduino-IRremote).
