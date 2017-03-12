@@ -63,7 +63,7 @@ void loop() {
     // to understand a MagiQuest wand
     decodeMagiQuest(&results, &data);
     Serial.print("wand_id: ");
-    Serial.println(results.value);
+    Serial.println(data.cmd.wand_id);
     Serial.print("magnitude: ");
     Serial.println(data.cmd.magnitude);
 
