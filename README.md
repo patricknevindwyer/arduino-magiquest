@@ -89,3 +89,10 @@ Serial.print("magnitude: ");
 Serial.println(data.cmd.magnitude);
 ```
 
+# IR Sensors
+
+I've used the following sensors successfully (with no code changes):
+
+ * [OSEPP IR Receiver Module](https://www.osepp.com/electronic-modules/sensor-modules/66-ir-receiver-module)
+ * [SunFounder Infrared Receiver Module](https://www.sunfounder.com/infrared-receiver-module.html)
+ * [Adafruit IR Receiver Sensor](https://www.adafruit.com/product/157)
